@@ -75,6 +75,22 @@ if [ $? -ne 0 ]; then
     echo "Error: Failed to copy files from container."
     exit 1
 fi
+
+# Copy our ros pkg, ihunter_icuas25_pkg, inside the ros2_ws
+echo "cloning ihunter_icuas25_pkg ..."
+TARGET_DIR="${SHARED_VOLUME}/CrazySim/ros2_ws/src/ihunter_icuas25_pkg"
+
+if [ ! -d "${TARGET_DIR}" ]; then
+    echo "Cloning repository into ${TARGET_DIR}..."
+    git clone https://github.com/mzahana/ihunter_icuas25_pkg.git "${TARGET_DIR}"
+else
+    echo "Repository already exists at ${TARGET_DIR}. Pulling latest changes..."
+    cd "${TARGET_DIR}"
+    git pull origin main  # or the appropriate branch name
+fi
+
+cd $HOME
+
 echo "Files copied successfully."
 
 # Stop and remove the temporary container
