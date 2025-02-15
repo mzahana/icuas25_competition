@@ -216,6 +216,12 @@ COPY to_copy/nanorc $HOME/.nanorc
 COPY to_copy/tmux $HOME/.tmux.conf
 COPY to_copy/ranger $HOME/.config/ranger/rc.conf
 
+# To kill ports
+RUN apt-get update && apt-get install -y psmisc
+
+# Required to visualize Octomap in RViz
+RUN apt update && apt install -y ros-${ROS2_DISTRO}-octomap-rviz-plugins
+
 USER root
 WORKDIR $HOME
 CMD ["/bin/bash"]

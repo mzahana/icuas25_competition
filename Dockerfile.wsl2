@@ -226,7 +226,15 @@ COPY to_copy/session.yml $HOME/CrazySim/ros2_ws/src/icuas25_competition/startup/
 # To kill ports
 RUN apt-get update && apt-get install -y psmisc
 
+# Required to visualize Octomap in RViz
+RUN apt update && apt install -y ros-${ROS2_DISTRO}-octomap-rviz-plugins
+
 RUN add-apt-repository ppa:kisak/kisak-mesa && apt update && apt -y upgrade
+
+# Update $HOME/CrazySim/ros2_ws/src/icuas25_competition
+RUN cd $HOME/CrazySim/ros2_ws/src/icuas25_competition && \
+    git pull origin master
+
 
 USER root
 WORKDIR $HOME
